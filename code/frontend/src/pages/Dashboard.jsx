@@ -7,7 +7,6 @@ const Dashboard = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   
-  // Mock data for demonstration - in a real app, this would come from your backend
   const mockUserFiles = [
     { id: '1', name: 'document.pdf' },
     { id: '2', name: 'image.jpg' },

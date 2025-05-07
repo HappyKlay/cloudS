@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const TransferForm = ({ onClose, userFiles = [] }) => {
   const [username, setUsername] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    if (userFiles.length === 1) {
+      setSelectedFiles([userFiles[0].id]);
+    }
+  }, [userFiles]);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -32,6 +38,65 @@ const TransferForm = ({ onClose, userFiles = [] }) => {
     onClose();
   };
 
+  const renderFileSelection = () => {
+    if (userFiles.length === 1) {
+      const file = userFiles[0];
+      return (
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2">File to Transfer</label>
+          <div className="border border-gray-300 rounded-lg p-2">
+            <div className="flex items-center p-2 bg-blue-50 rounded">
+              <input
+                type="checkbox"
+                id={`file-${file.id}`}
+                checked={selectedFiles.includes(file.id)}
+                onChange={() => handleFileSelect(file.id)}
+                className="mr-3"
+              />
+              <label htmlFor={`file-${file.id}`} className="cursor-pointer flex-1 font-medium">
+                {file.name}
+              </label>
+            </div>
+          </div>
+        </div>
+      );
+    }    
+    return (
+      <div className="mb-6">
+        <label className="block text-gray-700 mb-2">Select Files to Transfer</label>
+        <div className="mb-3">
+          <input
+            type="text"
+            value={searchText}
+            onChange={handleSearchChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search files..."
+          />
+        </div>
+        {filteredFiles.length > 0 ? (
+          <div className="max-h-60 overflow-y-auto border border-gray-300 rounded-lg p-2">
+            {filteredFiles.map((file) => (
+              <div key={file.id} className="flex items-center p-2 hover:bg-gray-100 rounded">
+                <input
+                  type="checkbox"
+                  id={`file-${file.id}`}
+                  checked={selectedFiles.includes(file.id)}
+                  onChange={() => handleFileSelect(file.id)}
+                  className="mr-3"
+                />
+                <label htmlFor={`file-${file.id}`} className="cursor-pointer flex-1">
+                  {file.name}
+                </label>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No files found matching your search</p>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-xl p-8 max-w-md w-full">
@@ -51,38 +116,7 @@ const TransferForm = ({ onClose, userFiles = [] }) => {
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2">Select Files to Transfer</label>
-            <div className="mb-3">
-              <input
-                type="text"
-                value={searchText}
-                onChange={handleSearchChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search files..."
-              />
-            </div>
-            {filteredFiles.length > 0 ? (
-              <div className="max-h-60 overflow-y-auto border border-gray-300 rounded-lg p-2">
-                {filteredFiles.map((file) => (
-                  <div key={file.id} className="flex items-center p-2 hover:bg-gray-100 rounded">
-                    <input
-                      type="checkbox"
-                      id={`file-${file.id}`}
-                      checked={selectedFiles.includes(file.id)}
-                      onChange={() => handleFileSelect(file.id)}
-                      className="mr-3"
-                    />
-                    <label htmlFor={`file-${file.id}`} className="cursor-pointer flex-1">
-                      {file.name}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">No files found matching your search</p>
-            )}
-          </div>
+          {renderFileSelection()}
 
           <div className="flex justify-end space-x-4">
             <button
