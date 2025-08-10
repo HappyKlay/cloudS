@@ -61,6 +61,9 @@ cloudS provides privacy-first file storage. Files are encrypted in the browser u
    Access the app at `http://localhost:5173`.
 
 ## Usage
+
+# ! The service is currently disabled.
+
 - Register and verify an account, then log in.
 - Upload files via drag-and-drop or the upload button. Files are encrypted before upload.
 - Example API call to register a user:
