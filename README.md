@@ -66,12 +66,7 @@ cloudS provides privacy-first file storage. Files are encrypted in the browser u
 
 - Register and verify an account, then log in.
 - Upload files via drag-and-drop or the upload button. Files are encrypted before upload.
-- Example API call to register a user:
-  ```bash
-  curl -X POST http://localhost:8080/api/v1/auth/register \
-    -H "Content-Type: application/json" \
-    -d '{"username":"alice","email":"alice@example.com","password":"secret"}'
-  ```
+- link: cloud-s-secure-project.xyz
 
 ## Contributing
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
